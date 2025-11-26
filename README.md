@@ -30,7 +30,7 @@ Two implementations are included:
   * Extracts account numbers from user queries.
   * Maps intents to tools manually.
   * Calls Azure LLM to generate the final response.
-* Entry point: `manual-test.py`
+* Entry point: `test.py`
 * Advantages:
 
   * Lightweight, no LangChain dependency.

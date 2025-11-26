@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 
 
-from utils import classify_intent, extract_account_id, check_balance, report_card_issues, unsupported, os, requests
+from utils import accounts, classify_intent, extract_account_id, check_balance_manual, report_card_issues, unsupported, os, requests
 
 load_dotenv()
 
@@ -35,7 +35,7 @@ def call_azure_chat(messages):
 
 def handle_user_input(user_input):
     print("Classifying intent...")
-    intent = classify_intent(user_input)
+    intent = classify_intent(user_input).lower().strip()
     print("Intent:", intent)
 
     account_id = extract_account_id(user_input)
@@ -55,7 +55,7 @@ def handle_user_input(user_input):
         print(f" Running tool: report_card_issues on account {account_id} ...")
         tool_output = report_card_issues(account_id)
 
-    elif intent == "transaction":
+    elif intent == "transactions":
         chosen_tool = "check_balance"
         if not account_id:
             return {
@@ -65,7 +65,7 @@ def handle_user_input(user_input):
                 "tool_output": None,
             }
         print(f" Running tool: check_balance on account {account_id} ...")
-        tool_output = check_balance(account_id)
+        tool_output = check_balance_manual(account_id, accounts)
 
     else:
         chosen_tool = "unsupported"

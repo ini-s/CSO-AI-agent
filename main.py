@@ -2,13 +2,6 @@ from utils import *
 from tools import tools
 
 if __name__ == "__main__":
-    accounts = {
-        "001": {"name": "Ini", "balance": 200000},
-        "002": {"name": "Bolu", "balance": 420000},
-        "003": {"name": "Ebuks", "balance": 3000000},
-        "004": {"name": "Daniel", "balance": 250000},
-    }
-
     llm = azure_llm()
     tools = tools
 

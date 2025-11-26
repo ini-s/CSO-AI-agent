@@ -1,4 +1,6 @@
-import os, requests, json
+import os
+import requests
+import json
 import re
 
 from dotenv import load_dotenv
@@ -9,6 +11,14 @@ import azure.cognitiveservices.speech as speech
 from langchain_classic.agents.mrkl.base import ZeroShotAgent
 
 load_dotenv()
+
+accounts = {
+    "001": {"name": "Ini", "balance": 200000},
+    "002": {"name": "Bolu", "balance": 420000},
+    "003": {"name": "Ebuks", "balance": 3000000},
+    "004": {"name": "Daniel", "balance": 250000},
+}
+
 
 def classify_intent(text: str):
     model_api_endpoint = os.getenv("model_api_endpoint")
@@ -40,16 +50,23 @@ def extract_account_id(text: str):
     match = re.search(r'\b(\d{3})\b', text)
     return match.group(1) if match else None
 
+
 def check_balance(account_id: str):
-    global accounts
     acct = accounts.get(account_id, None)
     if not acct:
         return {'error': "Account not found"}
-    return acct 
-    
+    return acct
+
+def check_balance_manual(account_id: str, accounts: dict):
+    acct = accounts.get(account_id, None)
+    if not acct:
+        return {'error': "Account not found"}
+    return acct
+
 def report_card_issues(account_id: str):
-    #simulate blocking card
-    return { "status": "blocked", "account_id" : account_id, "next_step": "Collect new card in 48hrs"}
+    # simulate blocking card
+    return {"status": "blocked", "account_id": account_id, "next_step": "Collect new card in 48hrs"}
+
 
 def unsupported():
     return {"status": "unsupported"}
